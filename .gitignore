@@ -1,5 +1,6 @@
-# env
+# Var
 .env
+.posyandu-view-secrets.json
 
 # Logs
 logs

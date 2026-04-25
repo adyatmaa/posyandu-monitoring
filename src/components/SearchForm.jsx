@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -20,36 +20,54 @@ import {
 } from "./ui/select";
 
 export const SearchForm = ({ onSubmit }) => {
+  const [nik, setNik] = useState("");
+  const [name, setName] = useState("");
+  const [pos, setPos] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(nik);
+    // console.log(name);
+    // console.log(pos);
+
+    onSubmit({ nik, name, pos });
+  };
+
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle>Cari balita anda disini</CardTitle>
         <CardDescription>Masukkan NIK serta nama balita anda</CardDescription>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={onSubmit}>
-          <FieldGroup>
+      <CardContent className="h-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center justify-between h-full"
+        >
+          <FieldGroup className="mb-6">
             <Field>
               <FieldLabel htmlFor="nik">NIK Balita</FieldLabel>
               <Input
+                value={nik}
+                onChange={(e) => setNik(e.target.value)}
                 type="number"
                 name="nik"
                 placeholder="NIK Balita"
-                required
               />
             </Field>
             <Field>
               <FieldLabel htmlFor="name">Nama Balita</FieldLabel>
               <Input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 name="name"
                 placeholder="Nama Balita"
-                required
               />
             </Field>
             <Field>
               <FieldLabel>Pos Balita</FieldLabel>
-              <Select>
+              <Select value={pos} onValueChange={(e) => setPos(e)}>
                 <SelectTrigger>
                   <SelectValue placeholder={`Pilih Pos`} />
                 </SelectTrigger>
@@ -65,13 +83,13 @@ export const SearchForm = ({ onSubmit }) => {
                 </SelectContent>
               </Select>
             </Field>
-            <Field>
-              <Button type="submit" className="flex items-center gap-1">
-                Cari Balita
-                <Search />
-              </Button>
-            </Field>
           </FieldGroup>
+          <Field>
+            <Button type="submit" className="flex items-center gap-1">
+              Cari Balita
+              <Search />
+            </Button>
+          </Field>
         </form>
       </CardContent>
     </Card>

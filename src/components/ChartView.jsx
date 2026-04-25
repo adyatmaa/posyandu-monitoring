@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Card,
+  CardAction,
   CardContent,
   CardDescription,
   CardHeader,
@@ -14,6 +15,8 @@ import {
   ChartTooltipContent,
 } from "./ui/chart";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Badge } from "./ui/badge";
+import { AlertTriangle } from "lucide-react";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -24,28 +27,45 @@ const chartData = [
   { month: "June", desktop: 214, mobile: 140 },
 ];
 
-export const ChartView = () => {
+export const ChartView = ({ data }) => {
   const chartConfig = {
-    desktop: {
+    bb: {
       label: "Berat (kg)",
       color: "#2563eb",
     },
-    mobile: {
+    tb: {
       label: "Tinggi (cm)",
       color: "#2EF527",
     },
   };
 
+  const isStunting = data.timbang.some(
+    (item) => item.status === "Pendek" || item.status === "S.Pendek",
+  );
+
   return (
     <div>
-      <Card>
+      <Card className="h-full">
         <CardHeader>
+          <CardAction>
+            {isStunting && (
+              <Badge className="bg-red-700 text-red-100">
+                <AlertTriangle />
+                Perlu Perhatian
+              </Badge>
+            )}
+          </CardAction>
           <CardTitle>Grafik Pertumbuhan Balita</CardTitle>
-          <CardDescription>Lihat grafik pertumbuhan --name--</CardDescription>
+          <CardDescription>
+            <h3 className="text-slate-600">
+              Lihat grafik pertumbuhan{" "}
+              <span className="uppercase">{data.name}</span>
+            </h3>
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
-            <LineChart accessibilityLayer data={chartData}>
+            <LineChart accessibilityLayer data={data.timbang}>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey={`month`}
@@ -67,17 +87,19 @@ export const ChartView = () => {
               />
               <ChartLegend content={<ChartLegendContent />} />
               <Line
-                dataKey={`desktop`}
+                dataKey={`bb`}
                 type={`bump`}
-                stroke="var(--color-desktop)"
+                stroke="var(--color-bb)"
                 strokeWidth={2}
+                connectNulls={false}
                 dot={true}
               />
               <Line
-                dataKey={`mobile`}
+                dataKey={`tb`}
                 type={`bump`}
-                stroke="var(--color-mobile)"
+                stroke="var(--color-tb)"
                 strokeWidth={2}
+                connectNulls={false}
                 dot={true}
               />
             </LineChart>

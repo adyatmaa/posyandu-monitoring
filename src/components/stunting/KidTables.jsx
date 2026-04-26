@@ -20,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Label } from "recharts";
 import {
   Table,
   TableBody,
@@ -31,6 +30,7 @@ import {
 } from "../ui/table";
 import { Button } from "../ui/button";
 import { Search } from "lucide-react";
+import { Label } from "../ui/label";
 
 export const KidTables = ({ columns, data }) => {
   const [columnFilters, setColumnFilters] = useState([]);
@@ -47,10 +47,26 @@ export const KidTables = ({ columns, data }) => {
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  const nameQuery =
+    columnFilters.find((item) => item.id === "name")?.value || "";
+
+  const onQueryChange = (id, value) =>
+    setColumnFilters((prev) =>
+      prev
+        .filter((item) => item.id !== id)
+        .concat({
+          id,
+          value,
+        }),
+    );
+
+  const statusFilter = table.getColumn("timbang").getFilterValue() ?? "";
+
   return (
     <div>
-      <div>
+      <div className="space-y-4">
         <h2>Daftar Balita</h2>
+
         {/* Filter */}
         <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-3">
           {/* Search Bar */}
@@ -59,8 +75,8 @@ export const KidTables = ({ columns, data }) => {
               <InputGroupInput
                 type="text"
                 placeholder="Search by name..."
-                // value={nameQuery}
-                // onChange={(e) => onQueryChange("name", e.target.value)}
+                value={nameQuery}
+                onChange={(e) => onQueryChange("name", e.target.value)}
               />
               <InputGroupAddon>
                 <Search />
@@ -71,12 +87,12 @@ export const KidTables = ({ columns, data }) => {
           {/* Statuses */}
           <Field>
             <Select
-            // value={statusFilter}
-            // onValueChange={(value) => {
-            //   table
-            //     .getColumn("nutri_stat")
-            //     .setFilterValue(value === "Semua" ? "" : value);
-            // }}
+              value={statusFilter}
+              onValueChange={(value) => {
+                table
+                  .getColumn("timbang")
+                  .setFilterValue(value === "Semua" ? "" : value);
+              }}
             >
               <SelectTrigger className="">
                 <SelectValue placeholder="Status Gizi" />
@@ -85,7 +101,6 @@ export const KidTables = ({ columns, data }) => {
                 <SelectGroup>
                   <SelectItem value="Semua">Semua Status</SelectItem>
                   <SelectItem value="Normal">Normal</SelectItem>
-                  <SelectItem value="Kurang">Kurang</SelectItem>
                   <SelectItem value="Stunting">Stunting</SelectItem>
                 </SelectGroup>
               </SelectContent>
@@ -153,7 +168,8 @@ export const KidTables = ({ columns, data }) => {
               {table.getPageCount()}
             </Label>
             <Label>
-              {table.getRowModel().rows.length} of {data.length} rows
+              {table.getRowModel().rows.length} of{" "}
+              {table.getFilteredRowModel().rows.length} rows
             </Label>
           </div>
           <div className="flex items-center gap-2">

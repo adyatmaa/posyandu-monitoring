@@ -47,12 +47,12 @@ const immunizationList = [
 ];
 
 export const getData = async () => {
-  const spreadsheetId = "17InVcAlj57yt5GrF5OjRVVly0jfVOxxw3LEUsh-IOsI";
+  const spreadsheetId = import.meta.env.VITE_SHEET_ID;
 
-  const apiKey = "AIzaSyD0NeHlzhFKjS33SKtw13rlaW1YxwZdlm0";
-  const jan = "sheet1!a3:bs565";
+  const apiKey = import.meta.env.VITE_API_KEY;
+  const range = "sheet1!a3:bs566";
 
-  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${jan}?key=${apiKey}`;
+  const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
   try {
     const response = await axios.get(url);
     const rows = response.data.values;

@@ -14,16 +14,16 @@ export const Article = () => {
         transition={{ delay: 0.1 }}
         className="flex justify-center items-center my-20"
       >
-        <div>
+        <section className="text-center">
           <img className="w-96" src="/empty.png" alt="" />
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center justify-center gap-2 mb-4">
             <SpinnerShell />
             Nothing here, yet...
           </div>
           <p className="text-gray-700 text-sm">
             Pantau informasi terbaru posyandu desa disini.
           </p>
-        </div>
+        </section>
       </motion.div>
     </section>
   );

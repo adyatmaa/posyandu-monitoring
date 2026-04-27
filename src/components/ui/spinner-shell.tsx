@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Bubbles, Shell } from "lucide-react";
+import { Shell } from "lucide-react";
 
 function SpinnerShell({ className, ...props }: React.ComponentProps<"svg">) {
   return (

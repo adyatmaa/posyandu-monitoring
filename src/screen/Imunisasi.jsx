@@ -1,15 +1,53 @@
 import { Header } from "@/components/layout/Header";
-import { KidTables } from "@/components/stunting/KidTables";
 import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { getData } from "@/lib/repository";
 import { createColumnHelper } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
+import { ImmuTables } from "@/components/imunisasi/ImmuTables";
 import { motion } from "framer-motion";
 
-export const Stunting = () => {
+const renderSex = (val) => {
+  if (val === "1") {
+    return <Badge className="bg-cyan-100 text-cyan-700">Laki - laki</Badge>;
+  } else {
+    return <Badge className="bg-fuchsia-100 text-fuchsia-700">Perempuan</Badge>;
+  }
+};
+const renderVal = (val) => {
+  if (val !== "Belum") {
+    return <Badge className="bg-green-100 text-green-700">{val}</Badge>;
+  } else {
+    return <Badge className="bg-amber-100 text-amber-700">{val}</Badge>;
+  }
+};
+
+export const Imunisasi = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const columnHelper = createColumnHelper();
+
+  const allImmunizations = Array.from(
+    new Set(data.flatMap((row) => row.imunisasi.map((item) => item.name))),
+  );
+
+  const dynamicColumns = allImmunizations.map((name) => {
+    return columnHelper.accessor(
+      (row) => {
+        // Cari apakah row ini memiliki imunisasi tersebut
+        const item = row.imunisasi.find((i) => i.name === name);
+        return item?.value ? item.value : "Belum";
+      },
+      {
+        id: name,
+        header: name,
+        cell: (info) => renderVal(info.getValue()),
+      },
+    );
+  });
+
   const column = [
     columnHelper.display({
       id: "index",
@@ -18,66 +56,17 @@ export const Stunting = () => {
         info.table.getFilteredRowModel().rows.indexOf(info.row) + 1,
     }),
     columnHelper.accessor("name", {
+      id: "balita_name",
       header: "Nama Balita",
       cell: (props) => props.getValue().toUpperCase(),
     }),
     columnHelper.accessor("jk", {
+      id: "jk",
       header: "Jenis Kelamin",
       cell: (props) => renderSex(props.getValue()),
     }),
-    columnHelper.accessor(
-      (row) => `${row.birth_date}/${row.birth_month}/${row.birth_year}`,
-      {
-        id: "fullBirthDate",
-        header: "Tanggal Lahir",
-        cell: (props) => props.getValue(),
-      },
-    ),
-    columnHelper.accessor("timbang", {
-      header: "Status Gizi",
-      cell: (props) => {
-        const isStunting = props.row.original.timbang.some(
-          (item) => item.status === "Pendek" || item.status === "S.Pendek",
-        );
-
-        return (
-          <Badge
-            className={
-              isStunting
-                ? "bg-red-100 text-red-700"
-                : "bg-green-100 text-green-700"
-            }
-          >
-            {isStunting ? "Stunting" : "Normal"}
-          </Badge>
-        );
-      },
-      filterFn: (row, columnId, filterVal) => {
-        if (!filterVal) return true;
-
-        const data = row.original.timbang;
-        const isStunting = data.some(
-          (item) => item.status === "Pendek" || item.status === "S.Pendek",
-        );
-        const status = isStunting ? "Stunting" : "Normal";
-
-        return status === filterVal;
-      },
-    }),
+    ...dynamicColumns,
   ];
-
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const renderSex = (val) => {
-    if (val === "1") {
-      return <Badge className="bg-cyan-100 text-cyan-700">Laki - laki</Badge>;
-    } else {
-      return (
-        <Badge className="bg-fuchsia-100 text-fuchsia-700">Perempuan</Badge>
-      );
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,7 +84,8 @@ export const Stunting = () => {
   }, []);
 
   return (
-    <section className="">
+    <section>
+      {/* <Header /> */}
       {loading ? (
         <motion.div
           key={`load`}
@@ -113,7 +103,7 @@ export const Stunting = () => {
           transition={{ delay: 0.1 }}
           className="md:px-8 p-4"
         >
-          <KidTables columns={column} data={data} />
+          <ImmuTables columns={column} data={data} />
         </motion.div>
       )}
     </section>

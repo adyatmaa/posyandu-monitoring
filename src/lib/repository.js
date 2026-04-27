@@ -15,7 +15,7 @@ const monthNames = [
 ];
 
 const sanitizeData = (value) => {
-  if (value === null || value === undefined || value === "" || value === "0") {
+  if (value === null || value === undefined || value === "" || value === "0" || value === 0) {
     return null;
   }
   return value;

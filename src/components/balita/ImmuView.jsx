@@ -5,17 +5,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import { Baby, CheckCircle, CircleAlert, Syringe } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { Badge } from "../ui/badge";
 
 export const ImmuView = ({ data }) => {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Histori Imunisasi</CardTitle>
-        <CardDescription />
-      </CardHeader>
       <CardContent>
         <div className="mb-4">
           <Card className="bg-green-100">
@@ -23,7 +19,12 @@ export const ImmuView = ({ data }) => {
               {/* Head */}
               <div className="flex items-center gap-4">
                 <Baby className="bg-green-200 rounded-full size-12 p-2.5 text-green-700" />
-                <h1 className="font-semibold text-lg uppercase">{data.name}</h1>
+                <div className="flex flex-col items-start">
+                  <h1 className="font-medium text-base">Histori Imunisasi</h1>
+                  <h1 className="uppercase">
+                    {data.name}
+                  </h1>
+                </div>
               </div>
             </CardContent>
           </Card>

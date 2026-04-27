@@ -5,7 +5,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import {
   Table,
   TableBody,
@@ -13,8 +13,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "./ui/table";
-import { Badge } from "./ui/badge";
+} from "../ui/table";
+import { Badge } from "../ui/badge";
 
 export const TableView = ({ data }) => {
   const renderBadge = (status) => {
@@ -30,11 +30,14 @@ export const TableView = ({ data }) => {
       return "";
     }
   };
+
   return (
     <Card className="h-fit">
       <CardHeader>
-        <CardTitle>Judul</CardTitle>
-        <CardDescription>Desc</CardDescription>
+        <CardTitle>Riwayat Timbang</CardTitle>
+        <CardDescription>
+          Lihat riwayat timbang <span className="uppercase">{data.name}</span>
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="rounded-md border">

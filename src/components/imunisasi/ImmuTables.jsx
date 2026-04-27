@@ -32,7 +32,7 @@ import { Button } from "../ui/button";
 import { Search } from "lucide-react";
 import { Label } from "../ui/label";
 
-export const KidTables = ({ columns, data }) => {
+export const ImmuTables = ({ columns, data }) => {
   const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
@@ -48,7 +48,7 @@ export const KidTables = ({ columns, data }) => {
   });
 
   const nameQuery =
-    columnFilters.find((item) => item.id === "name")?.value || "";
+    columnFilters.find((item) => item.id === "balita_name")?.value || "";
 
   const onQueryChange = (id, value) =>
     setColumnFilters((prev) =>
@@ -60,61 +60,33 @@ export const KidTables = ({ columns, data }) => {
         }),
     );
 
-  const statusFilter = table.getColumn("timbang").getFilterValue() ?? "";
-
   return (
-    <div className="">
+    <div>
       <div className="space-y-4">
         <section className="space-y-4 bg-white p-3 rounded-lg opacity-90">
           <section className="text-center mb-6">
-            <h1 className="text-3xl font-medium">Data Balita Stunting</h1>
+            <h1 className="text-3xl font-medium">Data Imunisasi Balita</h1>
             <h2 className="text-base font-light">
-              Pantau kondisi balita anda disini
+              Pantau kelengkapan imunisasi balita anda disini
             </h2>
           </section>
-          {/* Filter */}
-          <div className="grid sm:grid-cols-1 md:grid-cols-3 gap-3">
-            {/* Search Bar */}
-            <Field className="md:col-span-2">
-              <InputGroup>
-                <InputGroupInput
-                  type="text"
-                  placeholder="Search by name..."
-                  value={nameQuery}
-                  onChange={(e) => onQueryChange("name", e.target.value)}
-                />
-                <InputGroupAddon>
-                  <Search />
-                </InputGroupAddon>
-              </InputGroup>
-            </Field>
-
-            {/* Statuses */}
-            <Field>
-              <Select
-                value={statusFilter}
-                onValueChange={(value) => {
-                  table
-                    .getColumn("timbang")
-                    .setFilterValue(value === "Semua" ? "" : value);
-                }}
-              >
-                <SelectTrigger className="">
-                  <SelectValue placeholder="Status Gizi" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="Semua">Semua Status</SelectItem>
-                    <SelectItem value="Normal">Normal</SelectItem>
-                    <SelectItem value="Stunting">Stunting</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </Field>
-          </div>
+          {/* Search Bar */}
+          <Field className="md:col-span-2">
+            <InputGroup>
+              <InputGroupInput
+                type="text"
+                placeholder="Search by name..."
+                value={nameQuery}
+                onChange={(e) => onQueryChange("balita_name", e.target.value)}
+              />
+              <InputGroupAddon>
+                <Search />
+              </InputGroupAddon>
+            </InputGroup>
+          </Field>
 
           {/* Tables */}
-          <div className="border rounded-lg bg-white">
+          <div className="border rounded-lg">
             <Table>
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

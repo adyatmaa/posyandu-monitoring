@@ -17,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
+} from "../ui/select";
 
 export const SearchForm = ({ onSubmit }) => {
   const [nik, setNik] = useState("");
@@ -26,9 +26,6 @@ export const SearchForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(nik);
-    // console.log(name);
-    // console.log(pos);
 
     onSubmit({ nik, name, pos });
   };

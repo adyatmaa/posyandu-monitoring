@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# 🩺 Posyandu Monitoring System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A village-level toddler health monitoring platform that utilizes the Google Sheets API as a serverless database.
 
-Currently, two official plugins are available:
+<img src="public/index.png" alt="Index Page" width="500">
+<img src="public/search.png" alt="Filter Results" width="500">
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Or, you can preview the web [here](https://posyandu-wadungasih.vercel.app/)
 
-## React Compiler
+## Overview
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This monitoring website was created to address the need for transparent, independently accessible child health data. The platform aims to eliminate parents' reliance on manual checks by providing a digital dashboard that displays immunization history and toddler development in real-time and accurately. This system enables rapid data synchronization between staff records and parents' dashboards, providing a lightweight yet robust data management solution.
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Real-time Monitoring with Google Sheets
+- Tracking Immunization History and Toddler Stunting Data
+- Visualizing Toddler Weight and Height Using Charts
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech Stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [React v19](https://react.dev/learn/installation) for Frontend
+- [Google Sheet API](https://console.cloud.google.com/) for Backend
+- [Tailwind CSS](https://tailwindcss.com/) and [shadcn](https://ui.shadcn.com/) for the UI
+- [Vercel](https://vercel.com) for deployment
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## How to run this
+
+Firstly, clone this repo
+
+```bash
+git clone https://github.com/adyatmaa/posyandu-monitoring.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Then, install the dependencies and run the code with
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
+
+After the installation complete, you need to setup your Google Sheet API and API KEY. Refer to ` .env.example` for the required variables.
+
+```env
+VITE_GOOGLE_APP_CREDENTIALS = you can leave this empty
+VITE_SHEET_ID = you can find this on your spreadsheet URL
+VITE_API_KEY = you can get this by generate it from your Google Cloud Console
+```
+
+All set, you can run this code locally in your computer👌
